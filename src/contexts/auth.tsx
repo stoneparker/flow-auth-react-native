@@ -6,6 +6,7 @@ import * as auth from '../services/auth';
 interface AuthContextData {
    signed: boolean;
    user: object | null;
+   loading: boolean;
    signIn(): Promise<void>; // promise são os que têm async, acho
    signOut(): void;
 } // token não é importante para os componentes, apenas pelo cliente de requsições http. o context é para os componentes
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
    const [user, setUser] = useState<object | null>(null); // o estado pode armazenar tanto um objeto (no caso do usuário estar logado), quanto ser nulo
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       async function loadStoragedData() {
@@ -22,6 +24,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
          if (storagedUser && storagedToken) {
             setUser(JSON.parse(storagedUser));
+            setLoading(false);
          }
       }
 
@@ -44,7 +47,7 @@ export const AuthProvider: React.FC = ({ children }) => {
    }
 
    return (
-      <AuthContext.Provider value={{ signed: Boolean(user), user, signIn, signOut }}>
+      <AuthContext.Provider value={{ signed: Boolean(user), user, loading, signIn, signOut }}>
          {children}
       </AuthContext.Provider>
    )

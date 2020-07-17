@@ -6,11 +6,11 @@ import SignIn from '../pages/SignIn';
 
 const AuthStack = createStackNavigator();
 
-const AuthRoute: React.FC = () => (
+const AuthRoutes: React.FC = () => (
    <AuthStack.Navigator>
       <AuthStack.Screen name="SignIn" component={SignIn} />
    </AuthStack.Navigator>
 );
 
-export default AuthRoute;
+export default AuthRoutes;
 

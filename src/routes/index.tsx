@@ -8,8 +8,7 @@ import AppRoutes from './app.routes';
 
 const Routes: React.FC = () => {
    const { signed } = useContext(AuthContext);
-
-   
+   // switch de rotas baseado no contexto
    return signed ? <AppRoutes/> : <AuthRoutes />;
 }
 

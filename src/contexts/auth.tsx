@@ -4,7 +4,8 @@ import * as auth from '../services/auth';
 interface AuthContextData {
    signed: boolean;
    user: object | null;
-   signIn(): Promise<void>;
+   signIn(): Promise<void>; // promise são os que têm async, acho
+   signOut(): void;
 } // token não é importante para os componentes, apenas pelo cliente de requsições http. o context é para os componentes
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -18,8 +19,12 @@ export const AuthProvider: React.FC = ({ children }) => {
       setUser(response.user); // usuário que se autenticou
    }
 
+   function signOut() {
+      setUser(null);
+   }
+
    return (
-      <AuthContext.Provider value={{ signed: Boolean(user), user, signIn }}>
+      <AuthContext.Provider value={{ signed: Boolean(user), user, signIn, signOut }}>
          {children}
       </AuthContext.Provider>
    )

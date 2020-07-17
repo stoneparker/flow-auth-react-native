@@ -1,13 +1,17 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import * as auth from '../services/auth';
 import api from '../services/api';
 
+interface User {
+   name: string;
+   email: string;
+}
 
 interface AuthContextData {
    signed: boolean;
-   user: object | null;
+   user: User | null;
    loading: boolean;
    signIn(): Promise<void>; // promise são os que têm async, acho
    signOut(): void;
@@ -16,7 +20,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-   const [user, setUser] = useState<object | null>(null); // o estado pode armazenar tanto um objeto (no caso do usuário estar logado), quanto ser nulo
+   const [user, setUser] = useState<User | null>(null); // o estado pode armazenar tanto um objeto (no caso do usuário estar logado), quanto ser nulo
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {
@@ -61,4 +65,8 @@ export const AuthProvider: React.FC = ({ children }) => {
    )
 }
 
-export default AuthContext;
+export function useAuth() {
+   const context = useContext(AuthContext);
+
+   return context;
+};

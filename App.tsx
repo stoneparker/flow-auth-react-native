@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-import Routes from './src/routes/routes';
+import Routes from './src/routes';
 
 const App: React.FC = () => {
    return (
-      <Routes />
+      <NavigationContainer>
+         <Routes />
+      </NavigationContainer>
    );
 }
 
